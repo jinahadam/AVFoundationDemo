@@ -14,14 +14,29 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X2P-Le-8kT">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="498" id="Hd5-6H-JeT"/>
+                                    <constraint firstAttribute="height" constant="485" id="WBr-Rr-Q5v"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6T-a4-p6Y">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Capture Still">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="captureStill:" destination="2" eventType="touchUpInside" id="XDQ-Wt-H3R"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
+                            <constraint firstItem="X2P-Le-8kT" firstAttribute="top" secondItem="3" secondAttribute="top" constant="1" id="Sxt-cN-KmR"/>
                             <constraint firstItem="X2P-Le-8kT" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="V1u-CK-CEz"/>
-                            <constraint firstItem="X2P-Le-8kT" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="tHh-tx-C3q"/>
+                            <constraint firstItem="r6T-a4-p6Y" firstAttribute="centerX" secondItem="X2P-Le-8kT" secondAttribute="centerX" type="default" id="ZVa-hG-1Mj"/>
+                            <constraint firstItem="r6T-a4-p6Y" firstAttribute="top" secondItem="X2P-Le-8kT" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="qZ7-rH-ulv"/>
                             <constraint firstItem="X2P-Le-8kT" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="z2s-8b-wOe"/>
                         </constraints>
                     </view>
@@ -40,6 +55,7 @@
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
+                <relationship kind="action" name="captureStill:"/>
                 <relationship kind="outlet" name="imgView" candidateClass="UIImageView"/>
             </relationships>
         </class>

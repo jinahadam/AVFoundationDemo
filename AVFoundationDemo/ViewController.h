@@ -11,4 +11,6 @@
 
 @interface ViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate>
 
+
+-(IBAction)captureStill:(id)sender;
 @end

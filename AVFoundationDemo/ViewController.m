@@ -14,10 +14,13 @@
 @property (strong) AVCaptureDevice * videoDevice;
 @property (strong) AVCaptureDeviceInput * videoInput;
 @property (strong) AVCaptureVideoDataOutput * frameOutput;
+@property (strong) AVCaptureStillImageOutput *stillImageOutput;
+
 @property (nonatomic,strong) IBOutlet UIImageView* imgView;
 @property (nonatomic,strong) CIDetector * faceDetector;
 @property (nonatomic,strong) CIContext * context;
 @property (nonatomic,strong) UIImageView * glasses;
+
 @end
 
 @implementation ViewController
@@ -48,18 +51,49 @@
     
 
 }
+
+-(IBAction)captureStill:(id)sender {
+    AVCaptureConnection *stillImageConnection = [[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo];
+    
+    
+    [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:stillImageConnection
+                                                         completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+                                                             NSLog(@"Capture still image");
+                                                             if (imageDataSampleBuffer != NULL) {
+                                                                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                                 
+                                                                 
+                                                                 UIImage *image = [[UIImage alloc] initWithData:imageData];
+                                                                 NSLog(@"Image %f", image.size.height);
+                                                             }
+                                                             
+                                                         }];
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.session = [[AVCaptureSession alloc] init];
-    self.session.sessionPreset = AVCaptureSessionPreset352x288;
+    self.session.sessionPreset = AVCaptureSessionPresetPhoto;
+    
     self.videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
+    self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+    NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    AVVideoCodecJPEG, AVVideoCodecKey,
+                                    nil];
+    [self.stillImageOutput setOutputSettings:outputSettings];
+
+    
     self.videoInput =[AVCaptureDeviceInput deviceInputWithDevice:self.videoDevice error:nil];
     self.frameOutput = [[AVCaptureVideoDataOutput alloc] init];
     self.frameOutput.videoSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA] forKey:(id)kCVPixelBufferPixelFormatTypeKey];
     
     [self.session addInput:self.videoInput];
     [self.session addOutput:self.frameOutput];
+    [self.session addOutput:self.stillImageOutput];
+    
     
     [self.frameOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
     [self.session startRunning];
